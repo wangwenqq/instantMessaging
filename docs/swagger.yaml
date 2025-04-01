@@ -1,3 +1,6 @@
+definitions:
+  models.UserBasic:
+    type: object
 info:
   contact: {}
 paths:
@@ -10,13 +13,94 @@ paths:
             type: string
       tags:
       - 首页
-  /user/info:
+  /login:
+    post:
+      parameters:
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserBasic'
+      responses:
+        "200":
+          description: 登陆成功
+          schema:
+            type: string
+      summary: 登陆
+      tags:
+      - 用户模块
+  /user:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserBasic'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 新增用户成功！
+          schema:
+            type: string
+      summary: 新增用户
+      tags:
+      - 用户模块
+  /users:
     get:
       responses:
         "200":
-          description: code", "data"}
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 用户列表
+      tags:
+      - 用户模块
+  /users/{id}:
+    delete:
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: 删除用户成功！
           schema:
             type: string
+      summary: 删除用户
       tags:
-      - 用户列表
+      - 用户模块
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserBasic'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 修改成功！
+          schema:
+            type: string
+      summary: 更新用户信息
+      tags:
+      - 用户模块
 swagger: "2.0"
